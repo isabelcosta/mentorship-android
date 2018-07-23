@@ -13,6 +13,10 @@ import org.systers.mentorshipsystem.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
+    companion object {
+        const val TAG = "LoginActivity"
+    }
+
     lateinit var binding: ActivityLoginBinding
     lateinit var viewModel: LoginViewModel
 
@@ -39,4 +43,3 @@ class LoginActivity : AppCompatActivity() {
 
 }
 
-const val TAG = "LoginActivity"

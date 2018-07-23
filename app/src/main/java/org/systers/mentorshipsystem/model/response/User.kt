@@ -1,4 +1,4 @@
-package org.systers.mentorshipsystem.model
+package org.systers.mentorshipsystem.model.response
 
 data class User(
         val id: Int,
