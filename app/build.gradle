@@ -23,6 +23,40 @@ android {
     dataBinding {
         enabled = true
     }
+
+    // Specifies a flavor dimension.
+    flavorDimensions "default"
+
+    productFlavors {
+        dev {
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            dimension "default"
+        }
+        stag {
+            applicationIdSuffix ".stag"
+            versionNameSuffix "-stag"
+            dimension "default"
+        }
+        prod {
+            applicationIdSuffix ".prod"
+            versionNameSuffix "-prod"
+            dimension "default"
+        }
+        mock {
+            applicationIdSuffix ".mock"
+            versionNameSuffix "-mock"
+            dimension "default"
+        }
+    }
+
+    // Remove mockRelease as it's not needed.
+    android.variantFilter { variant ->
+        if (variant.buildType.name == 'release'
+                && variant.flavors[0].name == 'mock') {
+            variant.ignore = true
+        }
+    }
 }
 
 dependencies {
