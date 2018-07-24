@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="base_url">"http://systers-mentorship-stag.eu-central-1.elasticbeanstalk.com/"</string>
+    <string name="base_url">http://systers-mentorship-stag.eu-central-1.elasticbeanstalk.com/</string>
 
 </resources>

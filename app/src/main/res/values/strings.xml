@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">Mentorship System</string>
+
+    <!-- Activity titles  -->
     <string name="activity_login_title">Sign in</string>
+    <string name="activity_register_title">Sign up</string>
+
     <string name="login_username_hint">Type your username</string>
     <string name="login_username_or_email_label">Username or email</string>
     <string name="login_password_hint">Type your password</string>
     <string name="login_password_label">Password</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string name="terms_and_conditions_acceptance_statement"><![CDATA[I agree and accept the Terms & Conditions of the Mentorship System]]></string>
 </resources>
