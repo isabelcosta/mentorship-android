@@ -17,7 +17,7 @@ import org.systers.mentorshipsystem.util.EventWrapper
 import org.systers.mentorshipsystem.view.RegisterActivity
 
 
-class LoginViewModel(app: Application) : ObservableViewModel(app) {
+class LoginViewModel(context: Application) : ObservableViewModel(context) {
 
     companion object {
         const val TAG = "LoginViewModel"
@@ -32,6 +32,7 @@ class LoginViewModel(app: Application) : ObservableViewModel(app) {
     val showOrHideUsernameError = MutableLiveData<String>()
     val showOrHidePasswordError = MutableLiveData<String>()
     val loginResponseData = MutableLiveData<LoginResponseData>()
+    val errorResponseData = MutableLiveData<String>()
     val isLoading = MutableLiveData<Boolean>()
 
     private var usersRepository: UsersRepository = UsersRepository(UsersRemoteDataSource())
@@ -61,7 +62,7 @@ class LoginViewModel(app: Application) : ObservableViewModel(app) {
                     Log.d(TAG, responseData.accessToken)
                 }, { error ->
                     // on error
-                    Log.d(TAG, error.message)
+                    Log.d(TAG, "lola maria"+error.message)
                     isLoading.value = false
                 }, {
                     // onComplete

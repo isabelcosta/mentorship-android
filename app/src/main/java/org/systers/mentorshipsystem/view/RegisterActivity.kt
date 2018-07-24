@@ -1,9 +1,12 @@
 package org.systers.mentorshipsystem.view
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import kotlinx.android.synthetic.main.activity_register.*
 import org.systers.mentorshipsystem.R
 import org.systers.mentorshipsystem.databinding.ActivityRegisterBinding
 import org.systers.mentorshipsystem.viewmodel.RegisterViewModel
@@ -23,6 +26,18 @@ class RegisterActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
         viewModel = ViewModelProviders.of(this).get(RegisterViewModel::class.java)
         binding.vm = viewModel
+        observeViewModelFields(viewModel)
 
+    }
+
+    private fun observeViewModelFields(viewModel: RegisterViewModel) {
+
+        viewModel.apply {
+
+            mismatchPasswordsError.observe(this@RegisterActivity, Observer<String> {
+                confirmPasswordTextInputLayout.error = it
+            })
+
+        }
     }
 }

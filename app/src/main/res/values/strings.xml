@@ -12,4 +12,9 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="terms_and_conditions_acceptance_statement"><![CDATA[I agree and accept the Terms & Conditions of the Mentorship System]]></string>
+    <string name="email">Email</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="error_not_matching_passwords">Passwords are not matching!</string>
 </resources>

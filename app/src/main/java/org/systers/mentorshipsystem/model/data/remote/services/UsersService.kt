@@ -5,6 +5,7 @@ import io.reactivex.Observable
 import org.systers.mentorshipsystem.model.data.remote.RetrofitHelper
 import org.systers.mentorshipsystem.model.request.LoginRequestData
 import org.systers.mentorshipsystem.model.request.RegisterRequestData
+import org.systers.mentorshipsystem.model.response.BaseResponseData
 import org.systers.mentorshipsystem.model.response.LoginResponseData
 import org.systers.mentorshipsystem.model.response.User
 import retrofit2.http.Body
@@ -21,7 +22,7 @@ interface UsersService {
     fun loginUser(@Body loginRequestData: LoginRequestData) : Observable<LoginResponseData>
 
     @POST("register")
-    fun registerUser(@Body registerRequestData: RegisterRequestData) : Completable
+    fun registerUser(@Body registerRequestData: RegisterRequestData) : Observable<BaseResponseData>
 
     @GET("users")
     fun getUsers() : Observable<List<User>>

@@ -7,6 +7,7 @@ import org.systers.mentorshipsystem.model.data.UsersDataSource
 import org.systers.mentorshipsystem.model.data.remote.UsersRemoteDataSource
 import org.systers.mentorshipsystem.model.request.LoginRequestData
 import org.systers.mentorshipsystem.model.request.RegisterRequestData
+import org.systers.mentorshipsystem.model.response.BaseResponseData
 import org.systers.mentorshipsystem.model.response.LoginResponseData
 
 class UsersRepository(
@@ -19,7 +20,7 @@ class UsersRepository(
         return usersRemoteDataSource.loginUser(loginRequestData)
     }
 
-    override fun registerUser(registerRequestData: RegisterRequestData): Completable {
+    override fun registerUser(registerRequestData: RegisterRequestData): Observable<BaseResponseData> {
         return usersRemoteDataSource.registerUser(registerRequestData)
     }
 

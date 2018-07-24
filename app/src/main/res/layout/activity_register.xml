@@ -28,7 +28,8 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:text="@={vm.inputEmail}"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatTextView
@@ -38,7 +39,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Email"
+            android:text="@string/email"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.143"
@@ -53,14 +54,15 @@
             android:layout_marginBottom="36dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/textInputLayout5"
+            app:layout_constraintBottom_toTopOf="@+id/confirmPasswordTextInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:text="@={vm.inputPassword}"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatTextView
@@ -92,7 +94,8 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:text="@={vm.inputName}"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatTextView
@@ -118,7 +121,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="Sign Up"
+            android:text="@string/sign_up"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -140,7 +143,8 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:text="@={vm.inputUsername}"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatTextView
@@ -150,19 +154,20 @@
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="Name"
+            android:text="@string/name"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.145"
             app:layout_constraintStart_toStartOf="parent" />
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout5"
+            android:id="@+id/confirmPasswordTextInputLayout"
             android:layout_width="272dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            app:errorEnabled="true"
             app:layout_constraintBottom_toTopOf="@+id/checkBox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -170,7 +175,8 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:text="@={vm.inputConfirmPassword}"/>
         </android.support.design.widget.TextInputLayout>
 
         <TextView
@@ -180,8 +186,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Confirm password"
-            app:layout_constraintBottom_toTopOf="@+id/textInputLayout5"
+            android:text="@string/confirm_password"
+            app:layout_constraintBottom_toTopOf="@+id/confirmPasswordTextInputLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.189"
             app:layout_constraintStart_toStartOf="parent"
@@ -196,6 +202,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:text="@string/terms_and_conditions_acceptance_statement"
+            android:checked="@={vm.checkTermsAndConditions}"
             app:layout_constraintBottom_toTopOf="@+id/button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -208,7 +215,8 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="Sign Up"
+            android:text="@string/sign_up"
+            android:onClick="@{() -> vm.registerUser() }"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

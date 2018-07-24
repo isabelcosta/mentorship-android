@@ -7,5 +7,5 @@ data class RegisterRequestData (
         @SerializedName("username") val username: String,
         @SerializedName("email") val email: String,
         @SerializedName("password") val password: String,
-        @SerializedName("terms_and_conditions_checked") val hasAcceptedTermsAndConditions: String
+        @SerializedName("terms_and_conditions_checked") val hasAcceptedTermsAndConditions: Boolean
 )

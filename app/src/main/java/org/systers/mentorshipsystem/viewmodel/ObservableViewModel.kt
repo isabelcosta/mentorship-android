@@ -6,7 +6,7 @@ import android.databinding.Observable
 import android.databinding.PropertyChangeRegistry
 import com.android.databinding.library.baseAdapters.BR
 
-abstract class ObservableViewModel(app: Application) : AndroidViewModel(app), Observable {
+abstract class ObservableViewModel(context: Application) : AndroidViewModel(context), Observable {
 
     @delegate:Transient
     private val mCallbacks: PropertyChangeRegistry by lazy { PropertyChangeRegistry() }
