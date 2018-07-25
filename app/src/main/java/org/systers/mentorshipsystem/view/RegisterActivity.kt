@@ -9,6 +9,7 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_register.*
 import org.systers.mentorshipsystem.R
 import org.systers.mentorshipsystem.databinding.ActivityRegisterBinding
+import org.systers.mentorshipsystem.util.EventWrapper
 import org.systers.mentorshipsystem.viewmodel.RegisterViewModel
 
 class RegisterActivity : AppCompatActivity() {
@@ -36,6 +37,12 @@ class RegisterActivity : AppCompatActivity() {
 
             mismatchPasswordsError.observe(this@RegisterActivity, Observer<String> {
                 confirmPasswordTextInputLayout.error = it
+            })
+
+            navigateToLogin.observe(this@RegisterActivity, Observer<EventWrapper<Boolean>> {
+                it?.getContentIfNotHandled()?.let { // Only proceed if the event has never been handled
+                    this@RegisterActivity.onBackPressed()
+                }
             })
 
         }

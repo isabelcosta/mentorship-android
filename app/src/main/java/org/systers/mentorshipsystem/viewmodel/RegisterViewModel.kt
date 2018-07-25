@@ -1,6 +1,7 @@
 package org.systers.mentorshipsystem.viewmodel
 
 import android.app.Application
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import android.databinding.ObservableField
@@ -15,6 +16,7 @@ import org.systers.mentorshipsystem.model.data.repositories.UsersRepository
 import org.systers.mentorshipsystem.model.request.RegisterRequestData
 import org.systers.mentorshipsystem.model.response.BaseResponseData
 import org.systers.mentorshipsystem.model.response.LoginResponseData
+import org.systers.mentorshipsystem.util.EventWrapper
 
 class RegisterViewModel(context: Application) : ObservableViewModel(context) {
 
@@ -33,11 +35,15 @@ class RegisterViewModel(context: Application) : ObservableViewModel(context) {
     var inputConfirmPassword = ""
     var checkTermsAndConditions = false
 
-    // LiveData objects
+    // LiveData
+    private val _navigateToLogin = MutableLiveData<EventWrapper<Boolean>>()
     val mismatchPasswordsError = MutableLiveData<String>()
     val registerResponseData = MutableLiveData<BaseResponseData>()
     val errorResponseData = MutableLiveData<String>()
     val isLoading = MutableLiveData<Boolean>()
+
+    val navigateToLogin : LiveData<EventWrapper<Boolean>>
+        get() = _navigateToLogin
 
     fun registerUser() {
 
@@ -68,9 +74,7 @@ class RegisterViewModel(context: Application) : ObservableViewModel(context) {
                     })
 
             compositeDisposable.add(disposable)
-
         }
-
     }
 
     private fun isInputValid(): Boolean {
@@ -90,4 +94,7 @@ class RegisterViewModel(context: Application) : ObservableViewModel(context) {
         return true
     }
 
+    fun navigateToLogin() {
+        _navigateToLogin.value = EventWrapper(true)
+    }
 }
