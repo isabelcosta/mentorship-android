@@ -57,17 +57,17 @@ class LoginViewModel(context: Application) : ObservableViewModel(context) {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({responseData ->
-
+                    // onNext
                     loginResponseData.value = responseData
                     isLoading.value = false
-                    Log.d(TAG, responseData.accessToken)
+                    Log.d(TAG, "onNext() ->>>> " + responseData.accessToken)
                 }, { error ->
                     // on error
-                    Log.d(TAG, "lola maria"+error.message)
+                    Log.d(TAG, "onError() ->>>> " + error.message)
                     isLoading.value = false
                 }, {
                     // onComplete
-                    Log.d(TAG, "LALALALALAL")
+                    Log.d(TAG, "onComplete() ->>>> ")
                     isLoading.value = false
                 })
 
