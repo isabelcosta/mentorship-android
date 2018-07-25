@@ -57,6 +57,7 @@ class LoginViewModel(context: Application) : ObservableViewModel(context) {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({responseData ->
+
                     loginResponseData.value = responseData
                     isLoading.value = false
                     Log.d(TAG, responseData.accessToken)

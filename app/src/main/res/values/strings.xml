@@ -17,4 +17,5 @@
     <string name="name">Name</string>
     <string name="confirm_password">Confirm password</string>
     <string name="error_not_matching_passwords">Passwords are not matching!</string>
+    <string name="activity_main_title">Main Activity</string>
 </resources>

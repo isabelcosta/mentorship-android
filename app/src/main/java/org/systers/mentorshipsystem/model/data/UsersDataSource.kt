@@ -6,15 +6,15 @@ import org.systers.mentorshipsystem.model.request.LoginRequestData
 import org.systers.mentorshipsystem.model.request.RegisterRequestData
 import org.systers.mentorshipsystem.model.response.BaseResponseData
 import org.systers.mentorshipsystem.model.response.LoginResponseData
-import org.systers.mentorshipsystem.model.response.User
+import org.systers.mentorshipsystem.model.response.UserResponseData
 
 interface UsersDataSource {
 
-    fun getUsers() : Observable<List<User>>
+    fun getUsers() : Observable<List<UserResponseData>>
 
-    fun getVerifiedUsers() : Observable<List<User>>
+    fun getVerifiedUsers() : Observable<List<UserResponseData>>
 
-    fun getUser(): Observable<User>
+    fun getUser(): Observable<UserResponseData>
 
     fun deleteUser(): Completable
 

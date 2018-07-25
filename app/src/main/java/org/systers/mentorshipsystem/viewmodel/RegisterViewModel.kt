@@ -75,6 +75,10 @@ class RegisterViewModel(context: Application) : ObservableViewModel(context) {
 
     private fun isInputValid(): Boolean {
 
+        if (inputEmail.isBlank() || inputName.isBlank() || inputUsername.isBlank() || inputPassword.isBlank()) {
+            return false
+        }
+
         if (inputPassword != inputConfirmPassword) {
 //            mismatchPasswordsError.value = context.getString(R.string.error_not_matching_passwords)
             mismatchPasswordsError.value = "Passwords are not matching!"

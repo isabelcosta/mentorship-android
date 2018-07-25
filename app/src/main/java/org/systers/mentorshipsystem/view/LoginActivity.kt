@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_login.*
 import org.systers.mentorshipsystem.R
+import org.systers.mentorshipsystem.application.MentorshipSystemApplication
 import org.systers.mentorshipsystem.viewmodel.LoginViewModel
 import org.systers.mentorshipsystem.databinding.ActivityLoginBinding
+import org.systers.mentorshipsystem.model.response.LoginResponseData
 import org.systers.mentorshipsystem.util.EventWrapper
 
 class LoginActivity : AppCompatActivity() {
@@ -62,6 +64,13 @@ class LoginActivity : AppCompatActivity() {
             showOrHidePasswordError.observe(this@LoginActivity, Observer<String> {
                 loginPasswordInputText.error = it
             })
+            loginResponseData.observe(this@LoginActivity, Observer<LoginResponseData> {
+                MentorshipSystemApplication.instance.currentUserLoginData = it!!
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                startActivity(intent)
+            })
+
+
         }
     }
 }

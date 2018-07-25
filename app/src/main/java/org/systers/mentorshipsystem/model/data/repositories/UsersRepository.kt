@@ -2,7 +2,7 @@ package org.systers.mentorshipsystem.model.data.repositories
 
 import io.reactivex.Completable
 import io.reactivex.Observable
-import org.systers.mentorshipsystem.model.response.User
+import org.systers.mentorshipsystem.model.response.UserResponseData
 import org.systers.mentorshipsystem.model.data.UsersDataSource
 import org.systers.mentorshipsystem.model.data.remote.UsersRemoteDataSource
 import org.systers.mentorshipsystem.model.request.LoginRequestData
@@ -14,7 +14,7 @@ class UsersRepository(
         private val usersRemoteDataSource: UsersDataSource = UsersRemoteDataSource()
 ) : UsersDataSource {
 
-    var cachedUsers = emptyList<User>()
+    var cachedUsers = emptyList<UserResponseData>()
 
     override fun loginUser(loginRequestData: LoginRequestData): Observable<LoginResponseData> {
         return usersRemoteDataSource.loginUser(loginRequestData)
@@ -24,16 +24,16 @@ class UsersRepository(
         return usersRemoteDataSource.registerUser(registerRequestData)
     }
 
-    override fun getUsers(): Observable<List<User>> {
+    override fun getUsers(): Observable<List<UserResponseData>> {
         return usersRemoteDataSource.getUsers()
                 .doOnNext { cachedUsers = it }
     }
 
-    override fun getVerifiedUsers(): Observable<List<User>> {
+    override fun getVerifiedUsers(): Observable<List<UserResponseData>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getUser(): Observable<User> {
+    override fun getUser(): Observable<UserResponseData> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

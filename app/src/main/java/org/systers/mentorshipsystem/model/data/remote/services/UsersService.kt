@@ -1,15 +1,15 @@
 package org.systers.mentorshipsystem.model.data.remote.services
 
-import io.reactivex.Completable
 import io.reactivex.Observable
 import org.systers.mentorshipsystem.model.data.remote.RetrofitHelper
 import org.systers.mentorshipsystem.model.request.LoginRequestData
 import org.systers.mentorshipsystem.model.request.RegisterRequestData
 import org.systers.mentorshipsystem.model.response.BaseResponseData
 import org.systers.mentorshipsystem.model.response.LoginResponseData
-import org.systers.mentorshipsystem.model.response.User
+import org.systers.mentorshipsystem.model.response.UserResponseData
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface UsersService {
@@ -25,6 +25,6 @@ interface UsersService {
     fun registerUser(@Body registerRequestData: RegisterRequestData) : Observable<BaseResponseData>
 
     @GET("users")
-    fun getUsers() : Observable<List<User>>
+    fun getUsers(@Header("Authorization") accessToken: String) : Observable<List<UserResponseData>>
 
 }
