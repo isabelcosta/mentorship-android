@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         binding.vm = viewModel
-        observeViewModelFields(viewModel)
     }
 
     override fun onDestroy() {
@@ -39,10 +38,4 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun observeViewModelFields(viewModel: MainViewModel) {
-
-        viewModel.apply {
-
-        }
-    }
 }

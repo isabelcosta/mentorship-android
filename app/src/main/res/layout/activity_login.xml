@@ -75,6 +75,7 @@
                 android:id="@+id/login_password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:inputType="textPassword"
                 android:text="@={vm.inputPassword}" />
         </android.support.design.widget.TextInputLayout>
 
