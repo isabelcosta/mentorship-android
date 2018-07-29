@@ -1,4 +1,4 @@
-package org.systers.mentorship.view.ui
+package org.systers.mentorship.view.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,7 +18,7 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        val intent = Intent(this, LoginActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
 
         runnable = Runnable {
             startActivity(intent)

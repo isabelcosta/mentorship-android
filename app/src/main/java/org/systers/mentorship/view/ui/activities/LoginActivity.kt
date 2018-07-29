@@ -1,4 +1,4 @@
-package org.systers.mentorship.view.ui
+package org.systers.mentorship.view.ui.activities
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle

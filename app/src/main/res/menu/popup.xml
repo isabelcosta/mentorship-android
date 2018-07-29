@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_settings"
+        android:title="@string/popup_menu_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_about"
+        android:title="@string/popup_menu_about"
+        android:icon="@drawable/ic_info_black_24dp"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_feedback"
+        android:title="@string/popup_menu_feedback"
+        android:icon="@drawable/ic_feedback_black_24dp"
+        app:showAsAction="never" />
+</menu>
