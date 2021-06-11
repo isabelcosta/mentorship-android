@@ -1,24 +1,23 @@
 package org.systers.mentorship.view.fragments
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.core.view.ViewCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.app.Activity.RESULT_OK
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.widget.SearchView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_members.*
 import org.systers.mentorship.R
@@ -27,12 +26,12 @@ import org.systers.mentorship.utils.Constants
 import org.systers.mentorship.utils.Constants.FILTER_MAP
 import org.systers.mentorship.utils.Constants.FILTER_REQUEST_CODE
 import org.systers.mentorship.utils.Constants.SORT_KEY
+import org.systers.mentorship.utils.EndlessRecyclerScrollListener
 import org.systers.mentorship.view.activities.FilterActivity
 import org.systers.mentorship.view.activities.MainActivity
 import org.systers.mentorship.view.activities.MemberProfileActivity
 import org.systers.mentorship.view.adapters.MembersAdapter
 import org.systers.mentorship.viewmodels.MembersViewModel
-
 
 /**
  * The fragment is responsible for showing all the members of the system in a list format
@@ -46,10 +45,12 @@ class MembersFragment : BaseFragment() {
         fun newInstance() = MembersFragment()
     }
 
-    private val membersViewModel by lazy {
-        ViewModelProviders.of(this).get(MembersViewModel::class.java)
-    }
+    private var memberListInitialized = false
+
+    private val membersViewModel: MembersViewModel by viewModels()
     private lateinit var rvAdapter: MembersAdapter
+    private var isLoading = false
+    private var isRecyclerView = false
     private var filterMap = hashMapOf(SORT_KEY to SortValues.REGISTRATION_DATE.name)
 
     override fun getLayoutResourceId(): Int = R.layout.fragment_members
@@ -58,11 +59,12 @@ class MembersFragment : BaseFragment() {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_members, menu)
         menu.findItem(R.id.search_item)?.let { searchItem ->
-            var searchView=searchItem.actionView as SearchView
-            searchView.queryHint="Search members"
+            val searchView = searchItem.actionView as SearchView
+            searchView.queryHint = "Search members"
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextChange(newText: String): Boolean {
-                    searchUsers(newText)
+                    if (memberListInitialized)
+                        searchUsers(newText)
                     return false
                 }
                 override fun onQueryTextSubmit(query: String): Boolean {
@@ -72,16 +74,17 @@ class MembersFragment : BaseFragment() {
         }
     }
 
-    fun searchUsers(query: String){
-        var userList=mutableListOf<User>()
-        for(user in membersViewModel.userList){
+    fun searchUsers(query: String) {
+        val userList = arrayListOf<User>()
+        for (user in membersViewModel.userList) {
             // ""+ to convert String to CharSequence
-            if ((""+user.username).contains(query, ignoreCase = true)){
+            if (("" + user.username).contains(query, ignoreCase = true)) {
                 userList.add(user)
             }
         }
         rvMembers.apply {
             layoutManager = LinearLayoutManager(context)
+            addLoadMoreListener(this)
             adapter = MembersAdapter(userList, ::openUserProfile)
         }
         tvEmptyList.visibility = View.GONE
@@ -89,31 +92,42 @@ class MembersFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
-        rvAdapter = MembersAdapter(listOf(), ::openUserProfile)
-        srlMembers.setOnRefreshListener { fetchNewest() }
+        rvAdapter = MembersAdapter(arrayListOf<User>(), ::openUserProfile)
+        srlMembers.setOnRefreshListener {
+            if (!isLoading) {
+                fetchNewest(true)
+                isLoading = true
+            }
+        }
 
-        membersViewModel.successful.observe(viewLifecycleOwner, Observer { successful ->
+        membersViewModel.successful.observe(viewLifecycleOwner, { successful ->
             (activity as MainActivity).hideProgressDialog()
             srlMembers.isRefreshing = false
+            isLoading = false
+            pbMembers.visibility = View.INVISIBLE
             if (successful != null) {
                 if (successful) {
-                    rvAdapter.setData(membersViewModel.userList)
-                    rvAdapter.filter(filterMap)
 
+                    rvAdapter.updateUsersList(filterMap, membersViewModel.userList)
                     if (membersViewModel.userList.isEmpty()) {
                         tvEmptyList.text = getString(R.string.empty_members_list)
                         rvMembers.visibility = View.GONE
                     } else {
-                        rvMembers.apply {
-                            layoutManager = LinearLayoutManager(context)
-                            adapter = MembersAdapter(membersViewModel.userList, ::openUserProfile)
-                            runLayoutAnimation(this)
+                        if (!isRecyclerView) {
+                            rvMembers.apply {
+                                layoutManager = LinearLayoutManager(context)
+                                adapter = MembersAdapter(membersViewModel.userList, ::openUserProfile)
+                                addLoadMoreListener(this)
+                                runLayoutAnimation(this)
 
-                            val dividerItemDecoration = DividerItemDecoration(
-                                    this.context, DividerItemDecoration.VERTICAL)
-                            addItemDecoration(dividerItemDecoration)
-                            adapter = rvAdapter
+                                val dividerItemDecoration = DividerItemDecoration(
+                                        this.context, DividerItemDecoration.VERTICAL)
+                                addItemDecoration(dividerItemDecoration)
+                                adapter = rvAdapter
+                                isRecyclerView = true
+                            }
                         }
+                        memberListInitialized = true
                         tvEmptyList.visibility = View.GONE
                     }
                 } else {
@@ -123,8 +137,7 @@ class MembersFragment : BaseFragment() {
                 }
             }
         })
-
-        fetchNewest()
+        fetchNewest(true)
     }
 
     private fun runLayoutAnimation(recyclerView: RecyclerView) {
@@ -133,6 +146,19 @@ class MembersFragment : BaseFragment() {
                 R.anim.layout_fall_down)
         recyclerView.adapter?.notifyDataSetChanged()
         recyclerView.scheduleLayoutAnimation()
+    }
+
+    private fun addLoadMoreListener(recyclerView: RecyclerView) {
+        recyclerView.addOnScrollListener(object :
+                EndlessRecyclerScrollListener(recyclerView.layoutManager as LinearLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int) {
+                if (!isLoading) {
+                    fetchNewest(false)
+                    isLoading = true
+                    pbMembers.visibility = View.VISIBLE
+                }
+            }
+        })
     }
 
     private fun openUserProfile(memberId: Int, sharedImageView: ImageView, sharedTextView: TextView) {
@@ -164,7 +190,7 @@ class MembersFragment : BaseFragment() {
                 true
             }
             R.id.menu_refresh -> {
-                fetchNewest()
+                fetchNewest(true)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -176,7 +202,7 @@ class MembersFragment : BaseFragment() {
         if (requestCode == FILTER_REQUEST_CODE && resultCode == RESULT_OK) {
             filterMap = data?.extras?.get(FILTER_MAP) as HashMap<String, String>?
                     ?: hashMapOf(SORT_KEY to SortValues.REGISTRATION_DATE.name)
-            rvAdapter.filter(filterMap)
+            rvAdapter.updateUsersList(filterMap, membersViewModel.userList)
         }
     }
 
@@ -186,9 +212,8 @@ class MembersFragment : BaseFragment() {
         REGISTRATION_DATE
     }
 
-    private fun fetchNewest()  {
-        srlMembers.isRefreshing = true
-        membersViewModel.getUsers()
+    private fun fetchNewest(isRefresh: Boolean) {
+        srlMembers.isRefreshing = isRefresh
+        membersViewModel.getUsers(isRefresh)
     }
-
 }
